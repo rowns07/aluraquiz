@@ -1,12 +1,13 @@
-import styled from 'styled-components'
-import db from '../db.json'
-import QuizBackground from '../components/QuizBackground'
-import Widget from '../components/Widget'
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import { useRouter } from 'next/router';
+
+import db from '../db.json';
+import QuizBackground from '../components/QuizBackground';
+import Widget from '../components/Widget';
 import QuizLogo from '../components/QuizLogo';
 import Footer from '../components/Footer';
 import GitHubCorner from '../components/GitHubCorner';
-import Head from 'next/head'
-
 
 export const QuizContainer = styled.div`
   width: 100%;
@@ -20,35 +21,61 @@ export const QuizContainer = styled.div`
 `;
 
 export default function Home() {
+  const router = useRouter();
+  const [name, setName] = useState('');
+
+  function submitForm(infosDoEvento) {
+    infosDoEvento.preventDefault();
+    router.push(`/quiz?name=${name}`);
+    console.log('Fazendo uma submissão por meio do React');
+  }
+
   return (
     <QuizBackground backgroundImage={db.bg}>
-    <Head>
-    <meta property="og:image" content="https://avatars.githubusercontent.com/u/6974831?s=60&v=4" key="AluraQUIZ" />
-    <meta property="og:site_name" content="AluraQUIZ" key="AluraQUIZ" />
-    <meta property="og:title" content="Testando OG" key="ogtitle" />
-    </Head>
       <QuizContainer>
-      <QuizLogo/>
-      <Widget>
-        <Widget.Header>
-          {db.title}
-        </Widget.Header>
-        <Widget.Content>
-          {db.description}
-        </Widget.Content>
-      </Widget>
+        <QuizLogo />
+        <Widget>
+          <Widget.Header>
+            {db.title}
+          </Widget.Header>
+          <Widget.Content>
+            <form onSubmit={(infosDoEvento) => submitForm(infosDoEvento)}>
+              {/* <input
+                onChange={function (infosDoEvento) {
+                  // name = infosDoEvento.target.value;
+                  setName(infosDoEvento.target.value);
+                  console.log(name);
+                }}
+                placeholder="Diz ai seu nome"
+              /> */}
+              <input
+                onChange={
+                  (infosDoEvento) => setName(infosDoEvento.target.value)
+                }
+                placeholder="Diz ai seu nome"
+              />
+              <button type="submit" disabled={name.length === 0}>
+                Jogar
+                {' '}
+                {name}
+              </button>
+            </form>
+            <br />
+            {db.description}
+          </Widget.Content>
+        </Widget>
 
-      <Widget>
-        <Widget.Content>
-          <h1>
-            Quizes da Galera
-          </h1>
-          <p>Um mais doido que o outro...</p>
-        </Widget.Content>
-      </Widget>
-      <GitHubCorner projectUrl='http://globo.com'/>
-      <Footer/>
+        <Widget>
+          <Widget.Content>
+            <h1>
+              Quizes da Galera
+            </h1>
+            <p>Um mais doido que o outro...</p>
+          </Widget.Content>
+        </Widget>
+        <GitHubCorner projectUrl="http://globo.com" />
+        <Footer />
       </QuizContainer>
     </QuizBackground>
-  )
+  );
 }
