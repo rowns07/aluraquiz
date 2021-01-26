@@ -73,7 +73,7 @@ export default function Home() {
             <p>Um mais doido que o outro...</p>
           </Widget.Content>
         </Widget>
-        <GitHubCorner projectUrl="http://globo.com" />
+        <GitHubCorner projectUrl="https://github.com/rowns07" />
         <Footer />
       </QuizContainer>
     </QuizBackground>
