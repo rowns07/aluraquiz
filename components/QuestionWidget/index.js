@@ -8,8 +8,14 @@ export default function QuestionWidget({
   questionIndex,
   totalQuestions,
   onSubmit,
+  addResult,
 }) {
+  const [selectAlternative, setSelectAlternative] = React.useState(undefined);
+  const [isQuestionSubmited, setIsQuestionSubmited] = React.useState(false);
   const questionId = `question_${questionIndex}`;
+  const isCorrect = selectAlternative === question.answer;
+  const hasAlternativeSelected = selectAlternative !== undefined;
+
   return (
     <Widget>
       <Widget.Header>
@@ -17,7 +23,7 @@ export default function QuestionWidget({
           {`Pergunta ${questionIndex + 1} de ${totalQuestions}`}
         </h3>
       </Widget.Header>
-      
+
       <img
         alt="Descrição"
         style={{
@@ -27,7 +33,7 @@ export default function QuestionWidget({
         }}
         src={question.image}
       />
-      
+
       <Widget.Content>
         <h1>
           {question.title}
@@ -36,34 +42,16 @@ export default function QuestionWidget({
           {question.description}
         </p>
 
-        {/* <form
-          onSubmit={(infosDoEvento) => {
-            infosDoEvento.preventDefault();
-            onSubmit();
-          }}
-        >
-          {question.alternatives.map((alternative, alternativeIndex) => {
-            const alternativeId = `alternative_${alternativeIndex}`;
-            return (
-              <Widget.Topic
-                as="label"
-                htmlFor={alternativeId}
-              >
-                <input
-                  id={alternativeId}
-                  name={questionId}
-                  type="radio"
-                />
-                {alternative}
-              </Widget.Topic>
-            );
-          })}
-        </form> */}
-
         <form
           onSubmit={(infosDoEvento) => {
             infosDoEvento.preventDefault();
-            onSubmit();
+            setIsQuestionSubmited(true);
+            setTimeout(() => {
+              addResult(isCorrect);
+              onSubmit();
+              setIsQuestionSubmited(false);
+              setSelectAlternative(undefined);
+            }, 3 * 1000);
           }}
         >
           {question.alternatives.map((alternative, alternativeIndex) => {
@@ -71,12 +59,13 @@ export default function QuestionWidget({
             return (
               <Widget.Topic
                 as="label"
+                key={alternativeId}
                 htmlFor={alternativeId}
               >
                 <input
-                  // style={{ display: 'none' }}
                   id={alternativeId}
                   name={questionId}
+                  onChange={() => setSelectAlternative(alternativeIndex)}
                   type="radio"
                 />
                 {alternative}
@@ -85,9 +74,18 @@ export default function QuestionWidget({
           })}
         </form>
 
-        <Button type="submit">
-          Confirmar
+        <Button type="submit" disabled={!hasAlternativeSelected}>
+          Confirmar 2
         </Button>
+
+        <p>
+          SelectedAlternative:
+          {`${selectAlternative}`}
+        </p>
+
+        {isQuestionSubmited && isCorrect && <p>Voce acertou</p> }
+        {isQuestionSubmited && !isCorrect && <p>Voce errou</p> }
+
       </Widget.Content>
     </Widget>
   );
