@@ -3,7 +3,7 @@ import { func } from 'prop-types';
 import React from 'react';
 import Button from '../components/Button';
 import LoadingWidget from '../components/Loading';
-// import QuestionWidget from '../components/QuestionWidget';
+import QuestionWidget from '../components/QuestionWidget';
 import QuizBackground from '../components/QuizBackground';
 // eslint-disable-next-line import/no-named-as-default
 import QuizContainer from '../components/QuizContainer';
@@ -12,91 +12,91 @@ import ResultWidget from '../components/Results';
 import Widget from '../components/Widget';
 import db from '../db.json';
 
-function QuestionWidget({
-  question,
-  questionIndex,
-  totalQuestions,
-  onSubmit,
-  addResult,
-}) {
-  const [selectAlternative, setSelectAlternative] = React.useState(undefined);
-  const [isQuestionSubmited, setIsQuestionSubmited] = React.useState(false);
-  const questionId = `question_${questionIndex}`;
-  const isCorrect = selectAlternative === question.answer;
-  const hasAlternativeSelected = selectAlternative !== undefined;
+// function QuestionWidget({
+//   question,
+//   questionIndex,
+//   totalQuestions,
+//   onSubmit,
+//   addResult,
+// }) {
+//   const [selectAlternative, setSelectAlternative] = React.useState(undefined);
+//   const [isQuestionSubmited, setIsQuestionSubmited] = React.useState(false);
+//   const questionId = `question_${questionIndex}`;
+//   const isCorrect = selectAlternative === question.answer;
+//   const hasAlternativeSelected = selectAlternative !== undefined;
 
-  return (
-    <Widget>
-      <Widget.Header>
-        <h3>
-          {`Pergunta ${questionIndex + 1} de ${totalQuestions}`}
-        </h3>
-      </Widget.Header>
+//   return (
+//     <Widget>
+//       <Widget.Header>
+//         <h3>
+//           {`Pergunta ${questionIndex + 1} de ${totalQuestions}`}
+//         </h3>
+//       </Widget.Header>
 
-      <img
-        alt="Descrição"
-        style={{
-          width: '100%',
-          height: '150px',
-          objectFit: 'cover',
-        }}
-        src={question.image}
-      />
+//       <img
+//         alt="Descrição"
+//         style={{
+//           width: '100%',
+//           height: '150px',
+//           objectFit: 'cover',
+//         }}
+//         src={question.image}
+//       />
 
-      <Widget.Content>
-        <h1>
-          {question.title}
-        </h1>
-        <p>
-          {question.description}
-        </p>
+//       <Widget.Content>
+//         <h1>
+//           {question.title}
+//         </h1>
+//         <p>
+//           {question.description}
+//         </p>
 
-        <form
-          onSubmit={(infosDoEvento) => {
-            infosDoEvento.preventDefault();
-            setIsQuestionSubmited(true);
-            setTimeout(() => {
-              addResult(isCorrect);
-              onSubmit();
-              setIsQuestionSubmited(false);
-              setSelectAlternative(undefined);
-            }, 3 * 1000);
-          }}
-        >
-          {question.alternatives.map((alternative, alternativeIndex) => {
-            const alternativeId = `alternative__${alternativeIndex}`;
-            return (
-              <Widget.Topic
-                as="label"
-                key={alternativeId}
-                htmlFor={alternativeId}
-              >
-                <input
-                  // style={{ display: 'none' }}
-                  id={alternativeId}
-                  name={questionId}
-                  onChange={() => setSelectAlternative(alternativeIndex)}
-                  type="radio"
-                />
-                {alternative}
-              </Widget.Topic>
-            );
-          })}
-          <Button type="submit" disabled={!hasAlternativeSelected}>
-            Confirmar
-          </Button>
-          <p>
-            SelectedAlternative:
-            {`${selectAlternative}`}
-          </p>
-          {isQuestionSubmited && isCorrect && <p>Voce acertou</p>}
-          {isQuestionSubmited && !isCorrect && <p>Voce errou</p>}
-        </form>
+//         <form
+//           onSubmit={(infosDoEvento) => {
+//             infosDoEvento.preventDefault();
+//             setIsQuestionSubmited(true);
+//             setTimeout(() => {
+//               addResult(isCorrect);
+//               onSubmit();
+//               setIsQuestionSubmited(false);
+//               setSelectAlternative(undefined);
+//             }, 3 * 1000);
+//           }}
+//         >
+//           {question.alternatives.map((alternative, alternativeIndex) => {
+//             const alternativeId = `alternative__${alternativeIndex}`;
+//             return (
+//               <Widget.Topic
+//                 as="label"
+//                 key={alternativeId}
+//                 htmlFor={alternativeId}
+//               >
+//                 <input
+//                   // style={{ display: 'none' }}
+//                   id={alternativeId}
+//                   name={questionId}
+//                   onChange={() => setSelectAlternative(alternativeIndex)}
+//                   type="radio"
+//                 />
+//                 {alternative}
+//               </Widget.Topic>
+//             );
+//           })}
+//           <Button type="submit" disabled={!hasAlternativeSelected}>
+//             Confirmar
+//           </Button>
+//           <p>
+//             SelectedAlternative:
+//             {`${selectAlternative}`}
+//           </p>
+//           {isQuestionSubmited && isCorrect && <p>Voce acertou</p>}
+//           {isQuestionSubmited && !isCorrect && <p>Voce errou</p>}
+//         </form>
 
-      </Widget.Content>
-    </Widget>
-  );
-}
+//       </Widget.Content>
+//     </Widget>
+//   );
+// }
 
 const screenStates = {
   QUIZ: 'QUIZ',

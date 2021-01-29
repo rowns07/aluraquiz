@@ -51,7 +51,7 @@ export default function QuestionWidget({
               onSubmit();
               setIsQuestionSubmited(false);
               setSelectAlternative(undefined);
-            }, 3 * 1000);
+            }, 2 * 1000);
           }}
         >
           {question.alternatives.map((alternative, alternativeIndex) => {
@@ -72,19 +72,19 @@ export default function QuestionWidget({
               </Widget.Topic>
             );
           })}
+
+          <Button type="submit" disabled={!hasAlternativeSelected}>
+            Confirmar
+          </Button>
+
+          <p>
+            SelectedAlternative:
+            {`${selectAlternative}`}
+          </p>
+
+          {isQuestionSubmited && isCorrect && <p>Voce acertou</p> }
+          {isQuestionSubmited && !isCorrect && <p>Voce errou</p> }
         </form>
-
-        <Button type="submit" disabled={!hasAlternativeSelected}>
-          Confirmar 2
-        </Button>
-
-        <p>
-          SelectedAlternative:
-          {`${selectAlternative}`}
-        </p>
-
-        {isQuestionSubmited && isCorrect && <p>Voce acertou</p> }
-        {isQuestionSubmited && !isCorrect && <p>Voce errou</p> }
 
       </Widget.Content>
     </Widget>
