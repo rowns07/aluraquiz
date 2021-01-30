@@ -2,6 +2,7 @@
 import React from 'react';
 import Button from '../Button';
 import Widget from '../Widget';
+import AlternativesForm from '../AlternativesForm';
 
 export default function QuestionWidget({
   question,
@@ -42,7 +43,7 @@ export default function QuestionWidget({
           {question.description}
         </p>
 
-        <form
+        <AlternativesForm
           onSubmit={(infosDoEvento) => {
             infosDoEvento.preventDefault();
             setIsQuestionSubmited(true);
@@ -56,13 +57,19 @@ export default function QuestionWidget({
         >
           {question.alternatives.map((alternative, alternativeIndex) => {
             const alternativeId = `alternative__${alternativeIndex}`;
+            const alternativeStatus = isCorrect ? 'SUCCESS' : 'ERROR';
+            const isSelected = selectAlternative === alternativeIndex;
+
             return (
               <Widget.Topic
                 as="label"
                 key={alternativeId}
                 htmlFor={alternativeId}
+                data-selected={isSelected}
+                data-status={isQuestionSubmited && alternativeStatus}
               >
                 <input
+                  style={{ display: 'none' }}
                   id={alternativeId}
                   name={questionId}
                   onChange={() => setSelectAlternative(alternativeIndex)}
@@ -82,9 +89,9 @@ export default function QuestionWidget({
             {`${selectAlternative}`}
           </p>
 
-          {isQuestionSubmited && isCorrect && <p>Voce acertou</p> }
-          {isQuestionSubmited && !isCorrect && <p>Voce errou</p> }
-        </form>
+          {isQuestionSubmited && isCorrect && <p>Voce acertou</p>}
+          {isQuestionSubmited && !isCorrect && <p>Voce errou</p>}
+        </AlternativesForm>
 
       </Widget.Content>
     </Widget>

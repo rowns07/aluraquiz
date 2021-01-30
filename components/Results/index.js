@@ -17,7 +17,7 @@ function ResultWidget({ results }) {
           {' '}
           perguntas
           {results.map((result, index) => (
-            <li key={`result__${result}`}>
+            <li key={`result__${index + 1}`}>
               #
               {index + 1}
               {' '}

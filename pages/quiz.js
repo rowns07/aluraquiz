@@ -1,15 +1,10 @@
-/* eslint-disable react/prop-types */
-import { func } from 'prop-types';
 import React from 'react';
-import Button from '../components/Button';
 import LoadingWidget from '../components/Loading';
 import QuestionWidget from '../components/QuestionWidget';
 import QuizBackground from '../components/QuizBackground';
-// eslint-disable-next-line import/no-named-as-default
 import QuizContainer from '../components/QuizContainer';
 import QuizLogo from '../components/QuizLogo';
 import ResultWidget from '../components/Results';
-import Widget from '../components/Widget';
 import db from '../db.json';
 
 // function QuestionWidget({
@@ -111,7 +106,6 @@ export default function QuizPage() {
   const questionIndex = currentQuestion;
   const question = db.questions[questionIndex];
 
-  // passar no component como propriedade
   function addResult(result) {
     setResults([
       ...results,
@@ -120,11 +114,9 @@ export default function QuizPage() {
   }
 
   React.useEffect(() => {
-    // fetch() ...
     setTimeout(() => {
       setScreenState(screenStates.QUIZ);
     }, 1 * 1000);
-    // nasce === didMount
   }, []);
 
   function handleSubmitQuiz() {
@@ -141,13 +133,13 @@ export default function QuizPage() {
       <QuizContainer>
         <QuizLogo />
         {screenState === screenStates.QUIZ && (
-          <QuestionWidget
-            question={question}
-            questionIndex={questionIndex}
-            totalQuestions={totalQuestions}
-            onSubmit={handleSubmitQuiz}
-            addResult={addResult}
-          />
+        <QuestionWidget
+          question={question}
+          questionIndex={questionIndex}
+          totalQuestions={totalQuestions}
+          onSubmit={handleSubmitQuiz}
+          addResult={addResult}
+        />
         )}
         {screenState === screenStates.LOADING && <LoadingWidget />}
 
